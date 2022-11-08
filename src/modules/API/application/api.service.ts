@@ -1,14 +1,20 @@
-import { Injectable } from '@nestjs/common';
-import { TelegramBotService } from 'src/infrastructure/telegram-bot/service/telegram-bot.service';
+import { Inject, Injectable } from '@nestjs/common';
+import EntryPointService from 'src/modules/NLU/NLU-assets/entryPoint/entryPoint.service';
 
 @Injectable()
 export class ApiService {
+	constructor(private readonly enrtyPointService: EntryPointService) {}
 
-    constructor(
-        private readonly telegramService: TelegramBotService
-    ) { }
+	private readonly answers: string[];
 
-    greet() {
-        
-    }
+	processMessage(message: string) {
+		const lowercasedMessage = message.toLowerCase();
+		const detectedIntents =
+			this.enrtyPointService.detectIntents(lowercasedMessage);
+		console.log(detectedIntents);
+	}
+
+	get getAnswers() {
+		return this.answers;
+	}
 }

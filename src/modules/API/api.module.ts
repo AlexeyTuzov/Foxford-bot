@@ -1,11 +1,10 @@
 import { Module } from '@nestjs/common';
-import { TelegramBotModule } from 'src/infrastructure/telegram-bot/telegram-bot.module';
+import { NluModule } from '../NLU/nlu.module';
 import { ApiService } from './application/api.service';
-import { ApiController } from './WEB/api.controller';
 
 @Module({
-    controllers: [ApiController],
-    providers: [ApiService],
-    imports: [TelegramBotModule]
+	providers: [ApiService],
+	imports: [NluModule],
+	exports: [ApiService]
 })
 export class ApiModule {}
