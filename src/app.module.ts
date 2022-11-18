@@ -13,7 +13,7 @@ import * as redisStore from 'cache-manager-redis-store/dist/index';
 		CacheModule.register({
 			isGlobal: true,
 			store: redisStore,
-			host: process.env.REDIS_HOST,
+			host: process.env.REDIS_HOST
 		}),
 		ApiModule,
 		TelegramBotModule,

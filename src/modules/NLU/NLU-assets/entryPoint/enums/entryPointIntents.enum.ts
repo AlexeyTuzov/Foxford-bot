@@ -1,8 +1,7 @@
 enum EntryPointIntentsNames {
-	'GREET' = 'greet',
-	'STUDENTS_LESSONS_INFO' = 'students_lessons_info',
-	'FINANCIAL_INFO' = 'financial_info',
-	'GOODBYE' = 'goodbye'
+	STUDENTS_INFO = 'students_info',
+	LESSONS_INFO = 'lessons_info',
+	FINANCIAL_INFO = 'financial_info',
 }
 
 export default EntryPointIntentsNames;

@@ -1,4 +1,12 @@
-import { Ctx, InjectBot, Message, On, Sender, Start, Update } from 'nestjs-telegraf';
+import {
+	Ctx,
+	InjectBot,
+	Message,
+	On,
+	Sender,
+	Start,
+	Update
+} from 'nestjs-telegraf';
 import { ApiService } from 'src/modules/API/application/api.service';
 import MessengerTypes from 'src/modules/API/enums/messenger.enum';
 import IMessage from 'src/modules/API/interfaces/message.interface';
@@ -19,15 +27,19 @@ export class TelegramBotService {
 	}
 
 	@On('text')
-	async hears(@Ctx() ctx: Context, @Message('text') message: string, @Sender() user: ISender) {
+	async hears(
+		@Ctx() ctx: Context,
+		@Message('text') message: string,
+		@Sender() user: ISender
+	) {
 		const messageObj: IMessage = {
 			userId: user.id,
 			message,
 			userFirstName: user.first_name,
 			userLastName: user.last_name,
 			messenger: MessengerTypes.TELEGRAM
-		}
-		this.apiService.processMessage(messageObj);
-		await ctx.reply(`I have got message: ${message}`);
+		};
+		const answer =  await this.apiService.processMessage(messageObj);
+		await ctx.reply(answer);
 	}
 }
