@@ -9,8 +9,8 @@ enum DialogueBranches {
 	APPROVE_LESSON = 'approve_lesson',
 	CHANGE_PROGRAM = 'change_program',
 	NO_SALARY = 'NO_SALARY',
-    NO_ACT = 'NO_ACT',
-    NO_BONUS = 'NO_BONUS',
-    DOCS_CHANGE = 'DOCS_CHANGE',
-    SELF_EMPLOYEED = 'SELF_EMPLOYEED'
+	NO_ACT = 'NO_ACT',
+	NO_BONUS = 'NO_BONUS',
+	DOCS_CHANGE = 'DOCS_CHANGE',
+	SELF_EMPLOYEED = 'SELF_EMPLOYEED'
 }

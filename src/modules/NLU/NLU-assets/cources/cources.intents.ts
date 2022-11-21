@@ -1,8 +1,8 @@
-import Intent from "../../interfaces/intent.interface";
+import Intent from '../../interfaces/intent.interface';
 
 const CourcesIntents: Intent[] = [
-    {
-        name: CourcesIntentsNames.CHANGE_PROGRAM,
-        entities: ['курс', 'программ']
-    }
+	{
+		name: CourcesIntentsNames.CHANGE_PROGRAM,
+		entities: ['курс', 'программ']
+	}
 ];

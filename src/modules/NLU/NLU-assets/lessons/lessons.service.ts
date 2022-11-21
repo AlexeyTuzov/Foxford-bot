@@ -5,7 +5,7 @@ import IMessage from 'src/modules/API/interfaces/message.interface';
 import NluNode from '../../interfaces/nlu-node.interface';
 
 @Injectable()
-export default class LessonsService implements NluNode {
+export default class LessonsService extends NluNode {
 	public async analyze(messageObj: IMessage): Promise<IAnswer> {
 		return {
 			answer: 'Lessons service',

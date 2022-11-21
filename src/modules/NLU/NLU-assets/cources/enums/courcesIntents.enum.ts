@@ -1,3 +1,3 @@
 enum CourcesIntentsNames {
-    CHANGE_PROGRAM = 'change_program'
+	CHANGE_PROGRAM = 'change_program'
 }

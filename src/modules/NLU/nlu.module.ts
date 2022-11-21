@@ -17,9 +17,6 @@ import StudentsService from './NLU-assets/students/students.service';
 		CourcesService,
 		CommentsService
 	],
-	exports: [
-		EntryPointService,
-		DialogueFactoryService
-	]
+	exports: [EntryPointService, DialogueFactoryService]
 })
 export class NluModule {}

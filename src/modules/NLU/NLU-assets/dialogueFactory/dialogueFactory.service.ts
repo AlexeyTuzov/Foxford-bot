@@ -19,10 +19,9 @@ export default class DialogueFactoryService
 		private financialService: FinancialService,
 		private courcesService: CourcesService,
 		private commentsService: CommentsService
-		) { }
+	) {}
 
 	createDialogue(intent: Intent): NluNode {
-
 		if (intent.name === EntryPointIntentsNames.LESSONS_INFO) {
 			return this.lessonsService;
 		}

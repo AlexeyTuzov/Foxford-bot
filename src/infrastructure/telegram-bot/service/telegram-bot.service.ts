@@ -39,7 +39,7 @@ export class TelegramBotService {
 			userLastName: user.last_name,
 			messenger: MessengerTypes.TELEGRAM
 		};
-		const answer =  await this.apiService.processMessage(messageObj);
+		const answer = await this.apiService.processMessage(messageObj);
 		await ctx.reply(answer);
 	}
 }

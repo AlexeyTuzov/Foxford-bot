@@ -9,17 +9,20 @@ import DialogueFactoryService from '../dialogueFactory/dialogueFactory.service';
 import EntryPointIntents from './entryPoint.intents';
 
 @Injectable()
-export default class EntryPointService implements NluNode {
+export default class EntryPointService extends NluNode {
 	constructor(
 		private readonly dialogueFactoryService: DialogueFactoryService,
 		@Inject(CACHE_MANAGER) private readonly cacheManager: Cache
-	) {}
-	private readonly allIntents = EntryPointIntents;
-	private detectedIntents: Intent[];
+	) {
+		super();
+	}
+
+	allIntents = EntryPointIntents;
+	detectedIntents: Intent[];
 
 	public async analyze(messageObj: IMessage): Promise<IAnswer> {
-
 		this.detectedIntents = this.detectIntents(messageObj.message);
+		console.log('detected intents:', this.detectedIntents);
 
 		if (this.detectedIntents.length === 0) {
 			return {
@@ -43,14 +46,5 @@ export default class EntryPointService implements NluNode {
 				dialogueStatus: DialogueStatuses.FINISHED
 			};
 		}
-	}
-
-	private detectIntents(message: string): Intent[] {
-		const lowercasedMsg = message.toLowerCase();
-		return this.allIntents.filter((intent) => {
-			return intent.entities.find((entity) => {
-				return lowercasedMsg.match(RegExp(entity));
-			});
-		});
 	}
 }
