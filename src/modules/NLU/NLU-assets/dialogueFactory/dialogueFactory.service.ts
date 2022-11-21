@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import messageInterface from 'src/modules/API/interfaces/message.interface';
 import DialogueFactoryInterface from '../../interfaces/dialogueFactory.interface';
 import Intent from '../../interfaces/intent.interface';
 import NluNode from '../../interfaces/nlu-node.interface';
+import CommentsService from '../comments/comments.service';
+import CourcesService from '../cources/cources.service';
 import EntryPointIntentsNames from '../entryPoint/enums/entryPointIntents.enum';
 import FinancialService from '../financial/financial.service';
 import LessonsService from '../lessons/lessons.service';
@@ -15,14 +16,12 @@ export default class DialogueFactoryService
 	constructor(
 		private lessonsService: LessonsService,
 		private studentsService: StudentsService,
-		private financialService: FinancialService
+		private financialService: FinancialService,
+		private courcesService: CourcesService,
+		private commentsService: CommentsService
 		) { }
 
-	createDialogue(
-		incomingMessage: messageInterface,
-		cachedMessage: messageInterface,
-		intent: Intent
-	): NluNode {
+	createDialogue(intent: Intent): NluNode {
 
 		if (intent.name === EntryPointIntentsNames.LESSONS_INFO) {
 			return this.lessonsService;
@@ -33,6 +32,11 @@ export default class DialogueFactoryService
 		if (intent.name === EntryPointIntentsNames.FINANCIAL_INFO) {
 			return this.financialService;
 		}
-		
+		if (intent.name === EntryPointIntentsNames.COURCES_INFO) {
+			return this.courcesService;
+		}
+		if (intent.name === EntryPointIntentsNames.COMMENTS_INFO) {
+			return this.commentsService;
+		}
 	}
 }

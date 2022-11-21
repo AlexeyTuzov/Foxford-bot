@@ -22,31 +22,24 @@ export default class EntryPointService implements NluNode {
 		this.detectedIntents = this.detectIntents(messageObj.message);
 
 		if (this.detectedIntents.length === 0) {
-			console.log('0 intents');
 			return {
 				answer: 'Сформулируйте Ваш запрос более конкретно!',
 				dialogueStatus: DialogueStatuses.FINISHED
 			};
 		} else if (this.detectedIntents.length === 1) {
-			console.log('1 intent');
 			await this.cacheManager.set(
 				messageObj.userId,
 				messageObj,
 				1000 * 60 * 60
 			);
-			const cachedMessage = await this.cacheManager.get(messageObj.userId);
 			const appropriateService = this.dialogueFactoryService.createDialogue(
-				messageObj,
-				cachedMessage,
 				this.detectedIntents[0]
 			);
-			console.log(appropriateService);
 			return appropriateService.analyze(messageObj);
 		} else if (this.detectedIntents.length > 1) {
-			console.log('2 intents');
 			return {
 				answer:
-					'Не удалось конкретизировать намерения пользователя! Попробуйте сформулировать запрос более конкретно!',
+					'Не удалось конкретизировать Ваши намерения! Попробуйте сформулировать запрос более конкретно!',
 				dialogueStatus: DialogueStatuses.FINISHED
 			};
 		}
