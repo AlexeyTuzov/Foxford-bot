@@ -6,3 +6,5 @@ const CourcesIntents: Intent[] = [
 		entities: ['курс', 'программ']
 	}
 ];
+
+export default CourcesIntents;

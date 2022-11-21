@@ -17,24 +17,18 @@ export default class EntryPointService extends NluNode {
 		super();
 	}
 
-	allIntents = EntryPointIntents;
-	detectedIntents: Intent[];
+	protected allIntents = EntryPointIntents;
+	protected detectedIntents: Intent[];
 
 	public async analyze(messageObj: IMessage): Promise<IAnswer> {
 		this.detectedIntents = this.detectIntents(messageObj.message);
 		console.log('detected intents:', this.detectedIntents);
-
 		if (this.detectedIntents.length === 0) {
 			return {
 				answer: 'Сформулируйте Ваш запрос более конкретно!',
 				dialogueStatus: DialogueStatuses.FINISHED
 			};
 		} else if (this.detectedIntents.length === 1) {
-			await this.cacheManager.set(
-				messageObj.userId,
-				messageObj,
-				1000 * 60 * 60
-			);
 			const appropriateService = this.dialogueFactoryService.createDialogue(
 				this.detectedIntents[0]
 			);

@@ -7,3 +7,5 @@ const CommentIntents: Intent[] = [
 		entities: ['коммент']
 	}
 ];
+
+export default CommentIntents;

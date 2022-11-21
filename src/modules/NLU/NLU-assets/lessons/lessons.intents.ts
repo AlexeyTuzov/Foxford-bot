@@ -19,3 +19,5 @@ const LessonsIntents: Intent[] = [
 		entities: ['перенес', 'перенос']
 	}
 ];
+
+export default LessonsIntents;

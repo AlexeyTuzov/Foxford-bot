@@ -8,9 +8,11 @@ enum DialogueBranches {
 	LESSON_DATE_TIME_CHANGE = 'lesson_date_time_change',
 	APPROVE_LESSON = 'approve_lesson',
 	CHANGE_PROGRAM = 'change_program',
-	NO_SALARY = 'NO_SALARY',
-	NO_ACT = 'NO_ACT',
-	NO_BONUS = 'NO_BONUS',
-	DOCS_CHANGE = 'DOCS_CHANGE',
-	SELF_EMPLOYEED = 'SELF_EMPLOYEED'
+	NO_SALARY = 'no_salary',
+	NO_ACT = 'no_act',
+	NO_BONUS = 'no_bonus',
+	DOCS_CHANGE = 'docs_change',
+	SELF_EMPLOYEED = 'self_employeed'
 }
+
+export default DialogueBranches;

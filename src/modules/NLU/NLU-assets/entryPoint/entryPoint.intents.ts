@@ -8,7 +8,7 @@ const EntryPointIntents: Intent[] = [
 	},
 	{
 		name: EntryPointIntentsNames.LESSONS_INFO,
-		entities: ['заняти']
+		entities: ['заняти', 'урок']
 	},
 	{
 		name: EntryPointIntentsNames.FINANCIAL_INFO,

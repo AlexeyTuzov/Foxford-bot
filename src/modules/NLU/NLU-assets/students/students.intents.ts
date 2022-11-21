@@ -15,3 +15,5 @@ const StudentsIntents: Intent[] = [
 		entities: ['опаздыв', 'опозд', 'поздн', 'не вышел', 'не вышла', 'отсутств']
 	}
 ];
+
+export default StudentsIntents;
