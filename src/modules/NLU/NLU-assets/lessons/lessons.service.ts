@@ -12,7 +12,7 @@ import LessonsIntents from './lessons.intents';
 @Injectable()
 export default class LessonsDialogueService extends NluNode {
 	constructor(
-		@Inject(CACHE_MANAGER) private cacheManager: Cache,
+		@Inject(CACHE_MANAGER) protected cacheManager: Cache,
 		private lessonsCoreService: LessonsCoreService
 	) {
 		super();
@@ -57,57 +57,5 @@ export default class LessonsDialogueService extends NluNode {
 				dialogueStatus: DialogueStatuses.FINISHED
 			};
 		}
-	}
-
-	private async setAppropriateBranch(
-		messageObj: IMessage,
-		intent: Intent
-	): Promise<DialogueBranches> {
-		const messageCopy = messageObj;
-
-		try {
-			const branchesNames = Object.values(DialogueBranches);
-			const findBranch = branchesNames.find((name) => name === intent.name);
-			messageCopy.dialogueBranch = findBranch;
-
-			await this.cacheManager.set(
-				messageObj.userId,
-				messageObj,
-				1000 * 60 * 60
-			);
-			return findBranch;
-		} catch (err) {
-			console.log(
-				`Error in appropriate branch setting (Lessons service): ${err.message}`
-			);
-		}
-	}
-
-	private approveLesson(messageObj: IMessage, cachedMessage: IMessage) {
-		return {
-			answer: 'Approve lesson',
-			dialogueStatus: DialogueStatuses.FINISHED
-		};
-	}
-
-	private cancelLesson(messageObj: IMessage, cachedMessage: IMessage) {
-		return {
-			answer: 'Cancel lesson',
-			dialogueStatus: DialogueStatuses.FINISHED
-		};
-	}
-
-	private changeLessonDateTime(messageObj: IMessage, cachedMessage: IMessage) {
-		return {
-			answer: 'Lesson change date-time',
-			dialogueStatus: DialogueStatuses.FINISHED
-		};
-	}
-
-	private transitLesson(messageObj: IMessage, cachedMessage: IMessage) {
-		return {
-			answer: 'Transit lesson',
-			dialogueStatus: DialogueStatuses.FINISHED
-		};
 	}
 }

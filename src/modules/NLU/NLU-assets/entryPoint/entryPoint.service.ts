@@ -12,7 +12,7 @@ import EntryPointIntents from './entryPoint.intents';
 export default class EntryPointService extends NluNode {
 	constructor(
 		private readonly dialogueFactoryService: DialogueFactoryService,
-		@Inject(CACHE_MANAGER) private readonly cacheManager: Cache
+		@Inject(CACHE_MANAGER) protected readonly cacheManager: Cache
 	) {
 		super();
 	}
