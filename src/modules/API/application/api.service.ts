@@ -17,9 +17,9 @@ export class ApiService {
 	async processMessage(messageObj: IMessage): Promise<string> {
 		const dialogueId = messageObj.userId;
 
-		const findUnfinishedDialogue = await this.cacheManager.get(dialogueId);
+		const unfinishedDialogue = await this.cacheManager.get(dialogueId);
 
-		if (!findUnfinishedDialogue) {
+		if (!unfinishedDialogue) {
 			const entryPointAnswer = await this.enrtyPointService.analyze(messageObj);
 			return entryPointAnswer.answer;
 		} else {

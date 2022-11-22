@@ -4,6 +4,7 @@ import { TelegramBotModule } from './infrastructure/telegram-bot/telegram-bot.mo
 import { ApiModule } from './modules/API/api.module';
 import { NluModule } from './modules/NLU/nlu.module';
 import * as redisStore from 'cache-manager-redis-store/dist/index';
+import { CoreModule } from './modules/core/core.module';
 
 @Module({
 	imports: [
@@ -17,7 +18,8 @@ import * as redisStore from 'cache-manager-redis-store/dist/index';
 		}),
 		ApiModule,
 		TelegramBotModule,
-		NluModule
+		NluModule,
+		CoreModule
 	]
 })
 export class AppModule {}

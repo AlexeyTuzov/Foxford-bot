@@ -3,14 +3,18 @@ import { Cache } from 'cache-manager';
 import DialogueStatuses from 'src/modules/API/enums/dialogueStatus.enum';
 import IAnswer from 'src/modules/API/interfaces/answer.interface';
 import IMessage from 'src/modules/API/interfaces/message.interface';
+import LessonsCoreService from 'src/modules/core/application/services/lessons/lessons.service';
 import Intent from '../../interfaces/intent.interface';
 import NluNode from '../../interfaces/nlu-node.interface';
 import DialogueBranches from '../dialogueFactory/enums/dialodueBranches.enum';
 import LessonsIntents from './lessons.intents';
 
 @Injectable()
-export default class LessonsService extends NluNode {
-	constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {
+export default class LessonsDialogueService extends NluNode {
+	constructor(
+		@Inject(CACHE_MANAGER) private cacheManager: Cache,
+		private lessonsCoreService: LessonsCoreService
+	) {
 		super();
 	}
 
@@ -39,15 +43,13 @@ export default class LessonsService extends NluNode {
 				);
 				const cachedMessage = await this.cacheManager.get(messageObj.userId);
 
-				if (branchName === DialogueBranches.APPROVE_LESSON) {
-					return this.approveLesson(messageObj, cachedMessage);
-				} else if (branchName === DialogueBranches.CANCEL_LESSON) {
-					return this.cancelLesson(messageObj, cachedMessage);
-				} else if (branchName === DialogueBranches.LESSON_DATE_TIME_CHANGE) {
-					return this.changeLessonDateTime(messageObj, cachedMessage);
-				} else if (branchName === DialogueBranches.TRANSIT_LESSON) {
-					return this.transitLesson(messageObj, cachedMessage);
-				}
+				const answer = this.lessonsCoreService.process(
+					branchName,
+					messageObj,
+					cachedMessage
+				);
+
+				return answer;
 			}
 		} catch (err) {
 			return {

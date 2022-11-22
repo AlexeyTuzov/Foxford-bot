@@ -1,5 +1,8 @@
 import DialogueStatuses from '../enums/dialogueStatus.enum';
 import MessengerTypes from '../enums/messenger.enum';
+import DialogueBranches from 'src/modules/NLU/NLU-assets/dialogueFactory/enums/dialodueBranches.enum';
+import MetadataUnit from './metadataUnit.interface';
+import MetadataUnitNames from '../enums/metadataUnitNames.enum';
 
 export default interface IMessage {
 	userId: string;
@@ -9,5 +12,6 @@ export default interface IMessage {
 	messenger: MessengerTypes;
 	dialogueStatus?: DialogueStatuses;
 	dialogueBranch?: DialogueBranches;
-	metadata?: any[];
+	lastRequestedMetadataUnit?: MetadataUnitNames;
+	metadata?: MetadataUnit[];
 }

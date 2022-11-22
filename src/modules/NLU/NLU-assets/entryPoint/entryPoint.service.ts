@@ -22,7 +22,7 @@ export default class EntryPointService extends NluNode {
 
 	public async analyze(messageObj: IMessage): Promise<IAnswer> {
 		this.detectedIntents = this.detectIntents(messageObj.message);
-		console.log('detected intents:', this.detectedIntents);
+
 		if (this.detectedIntents.length === 0) {
 			return {
 				answer: 'Сформулируйте Ваш запрос более конкретно!',
