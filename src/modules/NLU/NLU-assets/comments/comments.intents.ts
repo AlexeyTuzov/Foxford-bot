@@ -1,11 +1,11 @@
 import Intent from '../../interfaces/intent.interface';
-import CommentIntentsNames from './enums/commentIntents.enum';
+import CommentsIntentsNames from './enums/commentsIntents.enum';
 
-const CommentIntents: Intent[] = [
+const CommentsIntents: Intent[] = [
 	{
-		name: CommentIntentsNames.NO_COMMENT_FROM_PREV_AGENT,
+		name: CommentsIntentsNames.NO_COMMENT_FROM_PREV_AGENT,
 		entities: ['коммент']
 	}
 ];
 
-export default CommentIntents;
+export default CommentsIntents;

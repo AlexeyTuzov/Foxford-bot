@@ -6,7 +6,7 @@ import CoreNode from 'src/modules/core/interfaces/core-node.interface';
 import DialogueBranches from 'src/modules/NLU/NLU-assets/dialogueFactory/enums/dialodueBranches.enum';
 
 @Injectable()
-export default class LessonsCoreService extends CoreNode {
+export default class CoursesCoreService extends CoreNode {
 	constructor() {
 		super();
 	}
@@ -17,7 +17,7 @@ export default class LessonsCoreService extends CoreNode {
 		cachedMessage: IMessage
 	): IAnswer {
 		return {
-			answer: 'zaglushka lessons',
+			answer: 'zaglushka courses',
 			dialogueStatus: DialogueStatuses.FINISHED
 		};
 	}

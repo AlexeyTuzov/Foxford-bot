@@ -3,7 +3,6 @@ import { Cache } from 'cache-manager';
 import DialogueStatuses from 'src/modules/API/enums/dialogueStatus.enum';
 import IAnswer from 'src/modules/API/interfaces/answer.interface';
 import IMessage from 'src/modules/API/interfaces/message.interface';
-import Intent from '../../interfaces/intent.interface';
 import NluNode from '../../interfaces/nlu-node.interface';
 import DialogueFactoryService from '../dialogueFactory/dialogueFactory.service';
 import EntryPointIntents from './entryPoint.intents';
@@ -18,7 +17,6 @@ export default class EntryPointService extends NluNode {
 	}
 
 	protected allIntents = EntryPointIntents;
-	protected detectedIntents: Intent[];
 
 	public async analyze(messageObj: IMessage): Promise<IAnswer> {
 		this.detectedIntents = this.detectIntents(messageObj.message);

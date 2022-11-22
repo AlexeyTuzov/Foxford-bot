@@ -1,15 +1,17 @@
-import { Injectable } from '@nestjs/common';
-import DialogueStatuses from 'src/modules/API/enums/dialogueStatus.enum';
-import IAnswer from 'src/modules/API/interfaces/answer.interface';
-import IMessage from 'src/modules/API/interfaces/message.interface';
+import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
+import CommentsCoreService from 'src/modules/core/application/services/comments/comments.service';
 import NluNode from '../../interfaces/nlu-node.interface';
+import CommentsIntents from './comments.intents';
+import { Cache } from 'cache-manager';
 
 @Injectable()
 export default class CommentsDialogueService extends NluNode {
-	public async analyze(messageObj: IMessage): Promise<IAnswer> {
-		return {
-			answer: 'Comments service',
-			dialogueStatus: DialogueStatuses.FINISHED
-		};
+	constructor(
+		@Inject(CACHE_MANAGER) protected cacheManager: Cache,
+		protected coreService: CommentsCoreService
+	) {
+		super();
 	}
+
+	protected allIntents = CommentsIntents;
 }

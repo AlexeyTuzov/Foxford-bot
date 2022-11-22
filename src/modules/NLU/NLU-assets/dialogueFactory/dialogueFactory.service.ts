@@ -3,7 +3,7 @@ import DialogueFactoryInterface from '../../interfaces/dialogueFactory.interface
 import Intent from '../../interfaces/intent.interface';
 import NluNode from '../../interfaces/nlu-node.interface';
 import CommentsDialogueService from '../comments/comments.service';
-import CourcesDialogueService from '../cources/cources.service';
+import CourcesDialogueService from '../cources/courses.service';
 import EntryPointIntentsNames from '../entryPoint/enums/entryPointIntents.enum';
 import FinancialDialogueService from '../financial/financial.service';
 import LessonsDialogueService from '../lessons/lessons.service';

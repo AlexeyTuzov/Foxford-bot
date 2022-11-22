@@ -1,9 +1,24 @@
 import { Module } from '@nestjs/common';
-import { CoreService } from './application/core.service';
+import CommentsCoreService from './application/services/comments/comments.service';
+import CoursesCoreService from './application/services/courses/courses.service';
+import FinancialCoreService from './application/services/financial/financial.service';
 import LessonsCoreService from './application/services/lessons/lessons.service';
+import StudentsCoreService from './application/services/students/students.service';
 
 @Module({
-	providers: [CoreService, LessonsCoreService],
-	exports: [LessonsCoreService]
+	providers: [
+		LessonsCoreService,
+		StudentsCoreService,
+		CommentsCoreService,
+		CoursesCoreService,
+		FinancialCoreService
+	],
+	exports: [
+		LessonsCoreService,
+		StudentsCoreService,
+		CommentsCoreService,
+		CoursesCoreService,
+		FinancialCoreService
+	]
 })
 export class CoreModule {}

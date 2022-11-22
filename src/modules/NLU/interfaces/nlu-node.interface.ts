@@ -3,12 +3,52 @@ import IMessage from 'src/modules/API/interfaces/message.interface';
 import Intent from './intent.interface';
 import { Cache } from 'cache-manager';
 import DialogueBranches from '../NLU-assets/dialogueFactory/enums/dialodueBranches.enum';
+import DialogueStatuses from 'src/modules/API/enums/dialogueStatus.enum';
+import CoreNode from 'src/modules/core/interfaces/core-node.interface';
 
 export default abstract class NluNode {
-	abstract analyze(messageObj: IMessage): Promise<IAnswer>;
-
 	protected allIntents: Intent[];
 	protected cacheManager: Cache;
+	protected coreService: CoreNode;
+	protected detectedIntents: Intent[];
+
+	public async analyze(messageObj: IMessage): Promise<IAnswer> {
+		try {
+			this.detectedIntents = this.detectIntents(messageObj.message);
+
+			if (this.detectedIntents.length === 0) {
+				return {
+					answer: 'Сформулируйте Ваш запрос более конкретно!',
+					dialogueStatus: DialogueStatuses.FINISHED
+				};
+			} else if (this.detectedIntents.length > 1) {
+				return {
+					answer:
+						'Не удалось конкретизировать Ваши намерения! Попробуйте сформулировать запрос более конкретно!',
+					dialogueStatus: DialogueStatuses.FINISHED
+				};
+			} else if (this.detectedIntents.length === 1) {
+				const branchName = await this.setAppropriateBranch(
+					messageObj,
+					this.detectedIntents[0]
+				);
+				const cachedMessage = await this.cacheManager.get(messageObj.userId);
+
+				const answer = this.coreService.process(
+					branchName,
+					messageObj,
+					cachedMessage
+				);
+
+				return answer;
+			}
+		} catch (err) {
+			return {
+				answer: 'Не удалось определить намерения пользователя :(',
+				dialogueStatus: DialogueStatuses.FINISHED
+			};
+		}
+	}
 
 	protected detectIntents(message: string): Intent[] {
 		const lowercasedMsg = message.toLowerCase();
@@ -37,9 +77,7 @@ export default abstract class NluNode {
 			);
 			return findBranch;
 		} catch (err) {
-			console.log(
-				`Error in appropriate branch setting (Lessons service): ${err.message}`
-			);
+			console.log(`Error in appropriate branch setting: ${err.message}`);
 		}
 	}
 }
