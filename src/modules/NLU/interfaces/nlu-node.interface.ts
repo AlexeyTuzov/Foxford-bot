@@ -2,7 +2,7 @@ import IAnswer from 'src/modules/API/interfaces/answer.interface';
 import IMessage from 'src/modules/API/interfaces/message.interface';
 import Intent from './intent.interface';
 import { Cache } from 'cache-manager';
-import DialogueBranches from '../NLU-assets/dialogueFactory/enums/dialodueBranches.enum';
+import DialogueBranches from '../NLU-assets/dialogueFactory/enums/dialogueBranches.enum';
 import DialogueStatuses from 'src/modules/API/enums/dialogueStatus.enum';
 import CoreNode from 'src/modules/core/interfaces/core-node.interface';
 
@@ -16,31 +16,28 @@ export default abstract class NluNode {
 		try {
 			this.detectedIntents = this.detectIntents(messageObj.message);
 
-			if (this.detectedIntents.length === 0) {
-				return {
-					answer: 'Сформулируйте Ваш запрос более конкретно!',
-					dialogueStatus: DialogueStatuses.FINISHED
-				};
-			} else if (this.detectedIntents.length > 1) {
+			if (this.detectedIntents.length > 1) {
 				return {
 					answer:
 						'Не удалось конкретизировать Ваши намерения! Попробуйте сформулировать запрос более конкретно!',
 					dialogueStatus: DialogueStatuses.FINISHED
-				};
+				}
+			} else if (this.detectedIntents.length === 0) {
+				const branchName = await this.setAppropriateBranch(
+					messageObj,
+					DialogueBranches.OTHER_QUESTION
+				);
 			} else if (this.detectedIntents.length === 1) {
 				const branchName = await this.setAppropriateBranch(
 					messageObj,
-					this.detectedIntents[0]
+					this.detectedIntents[0].name
 				);
-				const cachedMessage = await this.cacheManager.get(messageObj.userId);
-
-				const answer = await this.coreService.process(
-					messageObj,
-					cachedMessage
-				);
-
-				return answer;
 			}
+			const cachedMessage = await this.cacheManager.get(messageObj.userId);
+
+			const answer = await this.coreService.process(messageObj, cachedMessage);
+
+			return answer;
 		} catch (err) {
 			return {
 				answer: 'Не удалось определить намерения пользователя :(',
@@ -60,13 +57,13 @@ export default abstract class NluNode {
 
 	protected async setAppropriateBranch(
 		messageObj: IMessage,
-		intent: Intent
+		intentName: string
 	): Promise<void> {
 		const messageCopy = messageObj;
 
 		try {
 			const branchesNames = Object.values(DialogueBranches);
-			const findBranch = branchesNames.find((name) => name === intent.name);
+			const findBranch = branchesNames.find((name) => name === intentName);
 			messageCopy.dialogueBranch = findBranch;
 
 			await this.cacheManager.set(messageObj.userId, messageCopy);

@@ -1,6 +1,6 @@
 import DialogueStatuses from '../enums/dialogueStatus.enum';
 import MessengerTypes from '../enums/messenger.enum';
-import DialogueBranches from 'src/modules/NLU/NLU-assets/dialogueFactory/enums/dialodueBranches.enum';
+import DialogueBranches from 'src/modules/NLU/NLU-assets/dialogueFactory/enums/dialogueBranches.enum';
 import MetadataUnit from './metadataUnit.interface';
 import MetadataUnitNames from '../enums/metadataUnitNames.enum';
 

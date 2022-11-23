@@ -2,7 +2,6 @@ import DialogueStatuses from 'src/modules/API/enums/dialogueStatus.enum';
 import MetadataUnitNames from 'src/modules/API/enums/metadataUnitNames.enum';
 import IAnswer from 'src/modules/API/interfaces/answer.interface';
 import IMessage from 'src/modules/API/interfaces/message.interface';
-import DialogueBranches from 'src/modules/NLU/NLU-assets/dialogueFactory/enums/dialodueBranches.enum';
 import IRequest from './request.interface';
 import { Cache } from 'cache-manager';
 import CommonRequests from 'src/modules/API/interfaces/common.requests';

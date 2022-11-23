@@ -4,7 +4,7 @@ import MetadataUnitNames from 'src/modules/API/enums/metadataUnitNames.enum';
 import IAnswer from 'src/modules/API/interfaces/answer.interface';
 import IMessage from 'src/modules/API/interfaces/message.interface';
 import CoreNode from 'src/modules/core/interfaces/core-node.interface';
-import DialogueBranches from 'src/modules/NLU/NLU-assets/dialogueFactory/enums/dialodueBranches.enum';
+import DialogueBranches from 'src/modules/NLU/NLU-assets/dialogueFactory/enums/dialogueBranches.enum';
 import StudentsMetadataRequests from './students.requests';
 import { Cache } from 'cache-manager';
 

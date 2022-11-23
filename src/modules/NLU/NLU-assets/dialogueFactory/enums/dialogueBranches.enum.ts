@@ -3,6 +3,7 @@ enum DialogueBranches {
 	NO_COMMENT_FROM_PREV_AGENT = 'no_comment_from_prev_agent',
 	DENIAL_OF_STUDENT = 'denial of student',
 	TROUBLED_STUDENT = 'troubled_student',
+	OTHER_QUESTION = 'other_question',
 	CANCEL_LESSON = 'cancel_lesson',
 	TRANSIT_LESSON = 'transit_lesson',
 	LESSON_DATE_TIME_CHANGE = 'lesson_date_time_change',
