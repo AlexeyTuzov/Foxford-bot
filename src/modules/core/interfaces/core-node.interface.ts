@@ -5,16 +5,46 @@ import IMessage from 'src/modules/API/interfaces/message.interface';
 import DialogueBranches from 'src/modules/NLU/NLU-assets/dialogueFactory/enums/dialodueBranches.enum';
 import IRequest from './request.interface';
 import { Cache } from 'cache-manager';
+import CommonRequests from 'src/modules/API/interfaces/common.requests';
 
 export default abstract class CoreNode {
 	protected dialogueState: IMessage;
-	protected metadataRequests: IRequest[];
+	protected metadataRequests: IRequest[] = CommonRequests;
 	protected cacheManager: Cache;
 
-	abstract process(
+	abstract processSpecific(
 		messageObj: IMessage,
 		cachedMessage: IMessage
 	): Promise<IAnswer>;
+
+	async process(
+		messageObj: IMessage,
+		cachedMessage: IMessage
+	): Promise<IAnswer> {
+		this.dialogueState = cachedMessage;
+
+		if (this.dialogueState.lastRequestedMetadataUnit) {
+			await this.setMetadata(
+				this.dialogueState.lastRequestedMetadataUnit,
+				messageObj.message
+			);
+		}
+
+		if (!this.checkMetadata(MetadataUnitNames.FIO_AGENT)) {
+			this.dialogueState.lastRequestedMetadataUnit =
+				MetadataUnitNames.FIO_AGENT;
+			await this.cacheManager.set(messageObj.userId, this.dialogueState);
+			return this.getMetadataRequest(MetadataUnitNames.FIO_AGENT);
+		}
+
+		if (!this.checkMetadata(MetadataUnitNames.EMAIL)) {
+			this.dialogueState.lastRequestedMetadataUnit = MetadataUnitNames.EMAIL;
+			await this.cacheManager.set(messageObj.userId, this.dialogueState);
+			return this.getMetadataRequest(MetadataUnitNames.EMAIL);
+		}
+
+		return await this.processSpecific(messageObj, cachedMessage);
+	}
 
 	protected checkMetadata(unitName: MetadataUnitNames): boolean {
 		if (this.dialogueState.metadata) {

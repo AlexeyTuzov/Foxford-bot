@@ -11,7 +11,7 @@ export default class CoursesCoreService extends CoreNode {
 		super();
 	}
 
-	async process(
+	async processSpecific(
 		messageObj: IMessage,
 		cachedMessage: IMessage
 	): Promise<IAnswer> {
