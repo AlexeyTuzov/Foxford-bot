@@ -11,10 +11,7 @@ export default class LessonsCoreService extends CoreNode {
 		super();
 	}
 
-	async processSpecific(
-		messageObj: IMessage,
-		cachedMessage: IMessage
-	): Promise<IAnswer> {
+	async processSpecific(messageObj: IMessage): Promise<IAnswer> {
 		return {
 			answer: 'zaglushka lessons',
 			dialogueStatus: DialogueStatuses.FINISHED

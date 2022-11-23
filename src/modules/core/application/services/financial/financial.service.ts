@@ -11,10 +11,7 @@ export default class FinancialCoreService extends CoreNode {
 		super();
 	}
 
-	async processSpecific(
-		messageObj: IMessage,
-		cachedMessage: IMessage
-	): Promise<IAnswer> {
+	async processSpecific(messageObj: IMessage): Promise<IAnswer> {
 		return {
 			answer: 'zaglushka financial',
 			dialogueStatus: DialogueStatuses.FINISHED

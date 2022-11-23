@@ -16,10 +16,22 @@ export default class StudentsCoreService extends CoreNode {
 
 	protected metadataRequests = StudentsMetadataRequests;
 
-	async processSpecific(
-		messageObj: IMessage,
-		cachedMessage: IMessage
-	): Promise<IAnswer> {
+	async processSpecific(messageObj: IMessage): Promise<IAnswer> {
+		if (!this.checkMetadata(MetadataUnitNames.FIO_STUDENT)) {
+			this.dialogueState.lastRequestedMetadataUnit =
+				MetadataUnitNames.FIO_STUDENT;
+			await this.cacheManager.set(messageObj.userId, this.dialogueState);
+			return this.getMetadataRequest(MetadataUnitNames.FIO_STUDENT);
+		}
+
+		if (!this.checkMetadata(MetadataUnitNames.LESSON_DATE_TIME)) {
+			this.dialogueState.lastRequestedMetadataUnit =
+				MetadataUnitNames.LESSON_DATE_TIME;
+			await this.cacheManager.set(messageObj.userId, this.dialogueState);
+			return this.getMetadataRequest(MetadataUnitNames.LESSON_DATE_TIME);
+		}
+
+		console.log('META:', this.dialogueState.metadata);
 		if (
 			this.dialogueState.dialogueBranch === DialogueBranches.DENIAL_OF_STUDENT
 		) {
@@ -29,7 +41,6 @@ export default class StudentsCoreService extends CoreNode {
 		} else if (
 			this.dialogueState.dialogueBranch === DialogueBranches.STUDENT_ABSENT
 		) {
-			console.log('student absent!');
 		}
 
 		return {

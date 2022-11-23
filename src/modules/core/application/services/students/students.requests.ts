@@ -25,7 +25,7 @@ const StudentsMetadataRequests: IRequest[] = [
 		}
 	},
 	{
-		name: MetadataUnitNames.DATE,
+		name: MetadataUnitNames.LESSON_DATE_TIME,
 		request: {
 			answer: 'Введите дату и время урока',
 			dialogueStatus: DialogueStatuses.IN_PROGRESS
