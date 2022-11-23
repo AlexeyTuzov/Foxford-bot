@@ -11,11 +11,10 @@ export default class CoursesCoreService extends CoreNode {
 		super();
 	}
 
-	process(
-		branchName: DialogueBranches,
+	async process(
 		messageObj: IMessage,
 		cachedMessage: IMessage
-	): IAnswer {
+	): Promise<IAnswer> {
 		return {
 			answer: 'zaglushka courses',
 			dialogueStatus: DialogueStatuses.FINISHED

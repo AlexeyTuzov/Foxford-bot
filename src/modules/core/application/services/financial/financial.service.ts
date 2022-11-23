@@ -11,11 +11,10 @@ export default class FinancialCoreService extends CoreNode {
 		super();
 	}
 
-	process(
-		branchName: DialogueBranches,
+	async process(
 		messageObj: IMessage,
 		cachedMessage: IMessage
-	): IAnswer {
+	): Promise<IAnswer> {
 		return {
 			answer: 'zaglushka financial',
 			dialogueStatus: DialogueStatuses.FINISHED

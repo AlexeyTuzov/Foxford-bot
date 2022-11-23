@@ -21,20 +21,20 @@ export default class DialogueFactoryService
 		private commentsDialogueService: CommentsDialogueService
 	) {}
 
-	createDialogue(intent: Intent): NluNode {
-		if (intent.name === EntryPointIntentsNames.LESSONS_INFO) {
+	getDialogueService(intentName: string): NluNode {
+		if (intentName === EntryPointIntentsNames.LESSONS_INFO) {
 			return this.lessonsDialogueService;
 		}
-		if (intent.name === EntryPointIntentsNames.STUDENTS_INFO) {
+		if (intentName === EntryPointIntentsNames.STUDENTS_INFO) {
 			return this.studentsDialogueService;
 		}
-		if (intent.name === EntryPointIntentsNames.FINANCIAL_INFO) {
+		if (intentName === EntryPointIntentsNames.FINANCIAL_INFO) {
 			return this.financialDialogueService;
 		}
-		if (intent.name === EntryPointIntentsNames.COURCES_INFO) {
+		if (intentName === EntryPointIntentsNames.COURCES_INFO) {
 			return this.courcesDialogueService;
 		}
-		if (intent.name === EntryPointIntentsNames.COMMENTS_INFO) {
+		if (intentName === EntryPointIntentsNames.COMMENTS_INFO) {
 			return this.commentsDialogueService;
 		}
 	}

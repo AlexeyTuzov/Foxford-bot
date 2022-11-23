@@ -11,11 +11,10 @@ export default class CommentsCoreService extends CoreNode {
 		super();
 	}
 
-	process(
-		branchName: DialogueBranches,
+	async process(
 		messageObj: IMessage,
 		cachedMessage: IMessage
-	): IAnswer {
+	): Promise<IAnswer> {
 		return {
 			answer: 'zaglushka comments',
 			dialogueStatus: DialogueStatuses.FINISHED

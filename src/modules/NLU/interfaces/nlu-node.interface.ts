@@ -34,8 +34,7 @@ export default abstract class NluNode {
 				);
 				const cachedMessage = await this.cacheManager.get(messageObj.userId);
 
-				const answer = this.coreService.process(
-					branchName,
+				const answer = await this.coreService.process(
 					messageObj,
 					cachedMessage
 				);
@@ -62,7 +61,7 @@ export default abstract class NluNode {
 	protected async setAppropriateBranch(
 		messageObj: IMessage,
 		intent: Intent
-	): Promise<DialogueBranches> {
+	): Promise<void> {
 		const messageCopy = messageObj;
 
 		try {
@@ -70,14 +69,17 @@ export default abstract class NluNode {
 			const findBranch = branchesNames.find((name) => name === intent.name);
 			messageCopy.dialogueBranch = findBranch;
 
-			await this.cacheManager.set(
-				messageObj.userId,
-				messageObj,
-				1000 * 60 * 60
-			);
-			return findBranch;
+			await this.cacheManager.set(messageObj.userId, messageCopy);
 		} catch (err) {
 			console.log(`Error in appropriate branch setting: ${err.message}`);
 		}
+	}
+
+	public async proceed(
+		messageObj: IMessage,
+		cachedMessage: IMessage
+	): Promise<IAnswer> {
+		const answer = this.coreService.process(messageObj, cachedMessage);
+		return answer;
 	}
 }

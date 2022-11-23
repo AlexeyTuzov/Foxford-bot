@@ -12,30 +12,27 @@ export class ApiService {
 		private readonly dialogueFactoryService: DialogueFactoryService
 	) {}
 
-	private readonly answers: string[];
-
 	async processMessage(messageObj: IMessage): Promise<string> {
 		const dialogueId = messageObj.userId;
 
-		const unfinishedDialogue = await this.cacheManager.get(dialogueId);
+		const unfinishedDialogue: IMessage = await this.cacheManager.get(
+			dialogueId
+		);
+
+		console.log('unfinished dialogue:', unfinishedDialogue);
 
 		if (!unfinishedDialogue) {
 			const entryPointAnswer = await this.enrtyPointService.analyze(messageObj);
 			return entryPointAnswer.answer;
 		} else {
-			//this.dialogueFactoryService.createDialogue(messageObj, findUnfinishedDialogue);
+			const dialogueService = this.dialogueFactoryService.getDialogueService(
+				unfinishedDialogue.entryPointIntentName
+			);
+			const dialogueServiceAnswer = await dialogueService.proceed(
+				messageObj,
+				unfinishedDialogue
+			);
+			return dialogueServiceAnswer.answer;
 		}
-
-		/*
-		await this.cacheManager.set(generatedId, message, 0);
-		await this.cacheManager.del(generatedId);
-		const cachedMessage = await this.cacheManager.get(generatedId);
-		*/
-
-		//It is needed to return smtng to the user from this method. Saving all dialogue info into a redis before that
-	}
-
-	get getAnswers() {
-		return this.answers;
 	}
 }

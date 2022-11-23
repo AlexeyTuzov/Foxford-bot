@@ -14,7 +14,8 @@ import { CoreModule } from './modules/core/core.module';
 		CacheModule.register({
 			isGlobal: true,
 			store: redisStore,
-			host: process.env.REDIS_HOST
+			host: process.env.REDIS_HOST,
+			ttl: 3600
 		}),
 		ApiModule,
 		TelegramBotModule,
