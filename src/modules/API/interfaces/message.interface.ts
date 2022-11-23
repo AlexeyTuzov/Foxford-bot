@@ -3,7 +3,6 @@ import MessengerTypes from '../enums/messenger.enum';
 import DialogueBranches from 'src/modules/NLU/NLU-assets/dialogueFactory/enums/dialodueBranches.enum';
 import MetadataUnit from './metadataUnit.interface';
 import MetadataUnitNames from '../enums/metadataUnitNames.enum';
-import EntryPointIntentsNames from 'src/modules/NLU/NLU-assets/entryPoint/enums/entryPointIntents.enum';
 
 export default interface IMessage {
 	userId: string;
@@ -13,7 +12,7 @@ export default interface IMessage {
 	messenger: MessengerTypes;
 	dialogueStatus?: DialogueStatuses;
 	dialogueBranch?: DialogueBranches;
-	entryPointIntentName?: EntryPointIntentsNames;
+	entryPointIntentName?: string;
 	lastRequestedMetadataUnit?: MetadataUnitNames;
 	metadata?: MetadataUnit[];
 }

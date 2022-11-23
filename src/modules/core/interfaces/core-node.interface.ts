@@ -43,10 +43,22 @@ export default abstract class CoreNode {
 		unitName: MetadataUnitNames,
 		value: string | boolean
 	): Promise<void> {
-		this.dialogueState.metadata.push({
-			name: unitName,
-			value
-		});
-		await this.cacheManager.set(this.dialogueState.userId, this.dialogueState);
+		try {
+			if (!this.dialogueState.metadata) {
+				this.dialogueState.metadata = [];
+			}
+
+			this.dialogueState.metadata.push({
+				name: unitName,
+				value
+			});
+			this.dialogueState.lastRequestedMetadataUnit = null;
+			await this.cacheManager.set(
+				this.dialogueState.userId,
+				this.dialogueState
+			);
+		} catch (err) {
+			console.log('Metadata setting error:', err.message);
+		}
 	}
 }

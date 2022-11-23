@@ -19,8 +19,6 @@ export class ApiService {
 			dialogueId
 		);
 
-		console.log('unfinished dialogue:', unfinishedDialogue);
-
 		if (!unfinishedDialogue) {
 			const entryPointAnswer = await this.enrtyPointService.analyze(messageObj);
 			return entryPointAnswer.answer;

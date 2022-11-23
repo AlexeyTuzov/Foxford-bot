@@ -27,10 +27,12 @@ export default class EntryPointService extends NluNode {
 				dialogueStatus: DialogueStatuses.FINISHED
 			};
 		} else if (this.detectedIntents.length === 1) {
+			const messageCopy = messageObj;
+			messageCopy.entryPointIntentName = this.detectedIntents[0].name;
 			const appropriateService = this.dialogueFactoryService.getDialogueService(
 				this.detectedIntents[0].name
 			);
-			return appropriateService.analyze(messageObj);
+			return appropriateService.analyze(messageCopy);
 		} else if (this.detectedIntents.length > 1) {
 			return {
 				answer:

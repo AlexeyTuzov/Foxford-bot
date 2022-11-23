@@ -1,5 +1,5 @@
 enum DialogueBranches {
-	STUDENT_ABSCENT = 'student_abscent',
+	STUDENT_ABSENT = 'student_absent',
 	NO_COMMENT_FROM_PREV_AGENT = 'no_comment_from_prev_agent',
 	DENIAL_OF_STUDENT = 'denial of student',
 	TROUBLED_STUDENT = 'troubled_student',

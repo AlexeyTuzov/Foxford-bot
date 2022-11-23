@@ -11,7 +11,7 @@ const StudentsIntents: Intent[] = [
 		entities: ['сложн', 'трудно', 'проблемн']
 	},
 	{
-		name: StudentsIntentsNames.STUDENT_ABSCENT,
+		name: StudentsIntentsNames.STUDENT_ABSENT,
 		entities: [
 			'опаздыв',
 			'опозд',

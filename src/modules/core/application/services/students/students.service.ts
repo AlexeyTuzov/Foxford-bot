@@ -27,6 +27,7 @@ export default class StudentsCoreService extends CoreNode {
 				this.dialogueState.lastRequestedMetadataUnit,
 				messageObj.message
 			);
+			console.log('DS after FIO setting:', this.dialogueState);
 		}
 
 		if (!this.checkMetadata(MetadataUnitNames.FIO_AGENT)) {
@@ -43,7 +44,7 @@ export default class StudentsCoreService extends CoreNode {
 			this.dialogueState.dialogueBranch === DialogueBranches.TROUBLED_STUDENT
 		) {
 		} else if (
-			this.dialogueState.dialogueBranch === DialogueBranches.STUDENT_ABSCENT
+			this.dialogueState.dialogueBranch === DialogueBranches.STUDENT_ABSENT
 		) {
 		}
 
