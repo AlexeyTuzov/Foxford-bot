@@ -8,6 +8,7 @@ enum MetadataUnitNames {
 	IS_CONCERTED = 'is_concerted',
 	DATE = 'date',
 	NEW_DATE = 'new_date',
+	NEW_LESSON_DATE = 'new_lesson_date',
 	DATE_TO_APPLY_CHANGES = 'date_to_apply_changes',
 	COURCE_NAME = 'cource_name',
 	NEW_COURCE_NAME = 'new_cource_name',

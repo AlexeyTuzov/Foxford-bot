@@ -4,11 +4,11 @@ import IAnswer from 'src/modules/API/interfaces/answer.interface';
 import IMessage from 'src/modules/API/interfaces/message.interface';
 import IRequest from './request.interface';
 import { Cache } from 'cache-manager';
-import CommonRequests from 'src/modules/API/interfaces/common.requests';
+import yesNoToBoolean from 'src/modules/NLU/helperFunctions/yesNoToBoolean';
 
 export default abstract class CoreNode {
 	protected dialogueState: IMessage;
-	protected metadataRequests: IRequest[] = CommonRequests;
+	protected metadataRequests: IRequest[];
 	protected cacheManager: Cache;
 
 	abstract processSpecific(messageObj: IMessage): Promise<IAnswer>;
@@ -42,12 +42,12 @@ export default abstract class CoreNode {
 		return await this.processSpecific(messageObj);
 	}
 
-	protected checkMetadata(unitName: MetadataUnitNames): boolean {
+	protected checkMetadata(unitName: MetadataUnitNames): boolean | null {
 		if (this.dialogueState.metadata) {
 			const unit = this.dialogueState.metadata.find(
 				(unit) => unit.name === unitName
 			);
-			return unit ? !!unit.value : false;
+			return unit ? !!unit.value : null;
 		}
 	}
 
@@ -74,9 +74,18 @@ export default abstract class CoreNode {
 				this.dialogueState.metadata = [];
 			}
 
+			let valueCopy = value;
+
+			if (
+				unitName === MetadataUnitNames.IS_CONCERTED &&
+				typeof value === 'string'
+			) {
+				valueCopy = yesNoToBoolean(value);
+			}
+
 			this.dialogueState.metadata.push({
 				name: unitName,
-				value
+				value: valueCopy
 			});
 			this.dialogueState.lastRequestedMetadataUnit = null;
 			await this.cacheManager.set(
