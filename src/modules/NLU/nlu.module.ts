@@ -4,6 +4,7 @@ import CoursesCoreService from '../core/application/services/courses/courses.ser
 import FinancialCoreService from '../core/application/services/financial/financial.service';
 import LessonsCoreService from '../core/application/services/lessons/lessons.service';
 import StudentsCoreService from '../core/application/services/students/students.service';
+import { TaskFormerService } from '../taskFormer/application/task-former.service';
 import CommentsDialogueService from './NLU-assets/comments/comments.service';
 import CourcesDialogueService from './NLU-assets/cources/courses.service';
 import DialogueFactoryService from './NLU-assets/dialogueFactory/dialogueFactory.service';
@@ -25,7 +26,8 @@ import StudentsDialogueService from './NLU-assets/students/students.service';
 		CommentsCoreService,
 		CoursesCoreService,
 		FinancialCoreService,
-		StudentsCoreService
+		StudentsCoreService,
+		TaskFormerService
 	],
 	exports: [EntryPointService, DialogueFactoryService]
 })

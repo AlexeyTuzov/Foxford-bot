@@ -7,10 +7,14 @@ import CoreNode from 'src/modules/core/interfaces/core-node.interface';
 import DialogueBranches from 'src/modules/NLU/NLU-assets/dialogueFactory/enums/dialogueBranches.enum';
 import StudentsMetadataRequests from './students.requests';
 import { Cache } from 'cache-manager';
+import { TaskFormerService } from 'src/modules/taskFormer/application/task-former.service';
 
 @Injectable()
 export default class StudentsCoreService extends CoreNode {
-	constructor(@Inject(CACHE_MANAGER) protected cacheManager: Cache) {
+	constructor(
+		@Inject(CACHE_MANAGER) protected cacheManager: Cache,
+		private readonly taskFormer: TaskFormerService
+	) {
 		super();
 	}
 
@@ -31,20 +35,40 @@ export default class StudentsCoreService extends CoreNode {
 			return this.getMetadataRequest(MetadataUnitNames.LESSON_DATE_TIME);
 		}
 
-		console.log('META:', this.dialogueState.metadata);
 		if (
 			this.dialogueState.dialogueBranch === DialogueBranches.DENIAL_OF_STUDENT
 		) {
+			if (!this.checkMetadata(MetadataUnitNames.REASON_OF_CHANGE)) {
+				this.dialogueState.lastRequestedMetadataUnit =
+					MetadataUnitNames.REASON_OF_CHANGE;
+				await this.cacheManager.set(messageObj.userId, this.dialogueState);
+				return this.getMetadataRequest(MetadataUnitNames.REASON_OF_CHANGE);
+			}
 		} else if (
-			this.dialogueState.dialogueBranch === DialogueBranches.TROUBLED_STUDENT
+			this.dialogueState.dialogueBranch === DialogueBranches.TROUBLED_STUDENT ||
+			this.dialogueState.dialogueBranch === DialogueBranches.OTHER_QUESTION
 		) {
-		} else if (
-			this.dialogueState.dialogueBranch === DialogueBranches.STUDENT_ABSENT
-		) {
+			if (!this.checkMetadata(MetadataUnitNames.TEXT)) {
+				this.dialogueState.lastRequestedMetadataUnit = MetadataUnitNames.TEXT;
+				await this.cacheManager.set(messageObj.userId, this.dialogueState);
+				return this.getMetadataRequest(MetadataUnitNames.TEXT);
+			}
+		}
+
+		this.taskFormer.createTask(this.dialogueState);
+
+		this.cacheManager.del(messageObj.userId);
+
+		if (this.dialogueState.dialogueBranch === DialogueBranches.STUDENT_ABSENT) {
+			return {
+				answer:
+					'Спасибо за обращение! \nНапишите в чат виртуального класса ученику сообщение, что Вы его ждете. Подождите ещё 25 минут, а после напишите ещё раз сообщение и отключайтесь от урока',
+				dialogueStatus: DialogueStatuses.FINISHED
+			};
 		}
 
 		return {
-			answer: 'zaglushka students',
+			answer: 'Спасибо за обращение! \nЗаявка по Вашему вопросу отправлена',
 			dialogueStatus: DialogueStatuses.FINISHED
 		};
 	}

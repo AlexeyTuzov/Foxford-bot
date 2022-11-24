@@ -21,7 +21,7 @@ export default abstract class NluNode {
 					answer:
 						'Не удалось конкретизировать Ваши намерения! Попробуйте сформулировать запрос более конкретно!',
 					dialogueStatus: DialogueStatuses.FINISHED
-				}
+				};
 			} else if (this.detectedIntents.length === 0) {
 				const branchName = await this.setAppropriateBranch(
 					messageObj,

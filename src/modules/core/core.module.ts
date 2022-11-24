@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { TaskFormerService } from '../taskFormer/application/task-former.service';
 import CommentsCoreService from './application/services/comments/comments.service';
 import CoursesCoreService from './application/services/courses/courses.service';
 import FinancialCoreService from './application/services/financial/financial.service';
@@ -11,7 +12,8 @@ import StudentsCoreService from './application/services/students/students.servic
 		StudentsCoreService,
 		CommentsCoreService,
 		CoursesCoreService,
-		FinancialCoreService
+		FinancialCoreService,
+		TaskFormerService
 	],
 	exports: [
 		LessonsCoreService,
