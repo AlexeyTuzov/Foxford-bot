@@ -32,7 +32,7 @@ const LessonsMetadataRequests: IRequest[] = [
 		}
 	},
 	{
-		name: MetadataUnitNames.DATE,
+		name: MetadataUnitNames.DATE_OF_DENIAL,
 		request: {
 			answer: 'Введите дату отмены урока',
 			dialogueStatus: DialogueStatuses.IN_PROGRESS
@@ -46,9 +46,16 @@ const LessonsMetadataRequests: IRequest[] = [
 		}
 	},
 	{
-		name: MetadataUnitNames.NEW_LESSON_DATE,
+		name: MetadataUnitNames.NEW_SINGLE_LESSON_DATE,
 		request: {
 			answer: 'На какой день и время перенести занятие?',
+			dialogueStatus: DialogueStatuses.IN_PROGRESS
+		}
+	},
+	{
+		name: MetadataUnitNames.NEW_MULTIPLE_LESSONS_DATES,
+		request: {
+			answer: 'Укажите дни недели и время занятий по новой программе',
 			dialogueStatus: DialogueStatuses.IN_PROGRESS
 		}
 	},
@@ -91,7 +98,7 @@ const LessonsMetadataRequests: IRequest[] = [
 		name: MetadataUnitNames.IS_TEMPORARY,
 		request: {
 			answer:
-				'Составляем расписание на определенный период или на постоянной основе',
+				'Составляем расписание на определенный период или на постоянной основе?',
 			dialogueStatus: DialogueStatuses.IN_PROGRESS
 		}
 	}

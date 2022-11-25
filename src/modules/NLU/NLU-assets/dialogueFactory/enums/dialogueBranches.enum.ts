@@ -6,7 +6,7 @@ enum DialogueBranches {
 	OTHER_QUESTION = 'other_question',
 	CANCEL_LESSON = 'cancel_lesson',
 	TRANSIT_LESSON = 'transit_lesson',
-	LESSON_DATE_TIME_CHANGE = 'lesson_date_time_change',
+	SCHEDULE_CHANGE = 'schedule_change',
 	APPROVE_LESSON = 'approve_lesson',
 	CHANGE_PROGRAM = 'change_program',
 	NO_SALARY = 'no_salary',

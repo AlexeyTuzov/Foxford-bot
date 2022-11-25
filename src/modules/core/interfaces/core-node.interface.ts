@@ -5,6 +5,7 @@ import IMessage from 'src/modules/API/interfaces/message.interface';
 import IRequest from './request.interface';
 import { Cache } from 'cache-manager';
 import yesNoToBoolean from 'src/modules/NLU/helperFunctions/yesNoToBoolean';
+import isTemporaryToBoolean from 'src/modules/NLU/helperFunctions/isTemporaryToBoolean';
 
 export default abstract class CoreNode {
 	protected dialogueState: IMessage;
@@ -81,6 +82,13 @@ export default abstract class CoreNode {
 				typeof value === 'string'
 			) {
 				valueCopy = yesNoToBoolean(value);
+			}
+
+			if (
+				unitName === MetadataUnitNames.IS_TEMPORARY &&
+				typeof value === 'string'
+			) {
+				valueCopy = isTemporaryToBoolean(value);
 			}
 
 			this.dialogueState.metadata.push({

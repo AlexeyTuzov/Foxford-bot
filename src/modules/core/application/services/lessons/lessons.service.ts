@@ -22,10 +22,7 @@ export default class LessonsCoreService extends CoreNode {
 
 	async processSpecific(messageObj: IMessage): Promise<IAnswer> {
 		if (!this.checkMetadata(MetadataUnitNames.FIO_STUDENT)) {
-			this.dialogueState.lastRequestedMetadataUnit =
-				MetadataUnitNames.FIO_STUDENT;
-			await this.cacheManager.set(messageObj.userId, this.dialogueState);
-			return this.getMetadataRequest(MetadataUnitNames.FIO_STUDENT);
+			return await this.askStudentsFIO();
 		}
 
 		if (this.dialogueState.dialogueBranch !== DialogueBranches.APPROVE_LESSON) {
@@ -33,21 +30,39 @@ export default class LessonsCoreService extends CoreNode {
 				this.checkMetadata(MetadataUnitNames.IS_CONCERTED) === false &&
 				!this.checkMetadata(MetadataUnitNames.REASON_OF_NO_CONCERTION)
 			) {
-				this.dialogueState.lastRequestedMetadataUnit =
-					MetadataUnitNames.REASON_OF_NO_CONCERTION;
-				await this.cacheManager.set(messageObj.userId, this.dialogueState);
-				return this.getMetadataRequest(
-					MetadataUnitNames.REASON_OF_NO_CONCERTION
-				);
+				return await this.askReasonOfNoConcertion();
 			}
 			if (
 				!this.checkMetadata(MetadataUnitNames.IS_CONCERTED) &&
 				this.checkMetadata(MetadataUnitNames.IS_CONCERTED) !== false
 			) {
-				this.dialogueState.lastRequestedMetadataUnit =
-					MetadataUnitNames.IS_CONCERTED;
-				await this.cacheManager.set(messageObj.userId, this.dialogueState);
-				return this.getMetadataRequest(MetadataUnitNames.IS_CONCERTED);
+				return await this.askIsConcerted();
+			}
+			if (!this.checkMetadata(MetadataUnitNames.DATE_OF_DENIAL)) {
+				return await this.askDateOfDenial();
+			}
+		}
+
+		if (
+			this.dialogueState.dialogueBranch === DialogueBranches.CANCEL_LESSON ||
+			this.dialogueState.dialogueBranch === DialogueBranches.TRANSIT_LESSON
+		) {
+			if (!this.checkMetadata(MetadataUnitNames.NEW_SINGLE_LESSON_DATE)) {
+				return await this.askNewDateSingle();
+			}
+		}
+
+		if (
+			this.dialogueState.dialogueBranch === DialogueBranches.SCHEDULE_CHANGE
+		) {
+			if (!this.checkMetadata(MetadataUnitNames.NEW_MULTIPLE_LESSONS_DATES)) {
+				return await this.askNewSchedule();
+			}
+		}
+
+		if (this.dialogueState.dialogueBranch === DialogueBranches.APPROVE_LESSON) {
+			if (!this.checkMetadata(MetadataUnitNames.IS_TEMPORARY)) {
+				return this.askIsTemporary();
 			}
 		}
 
@@ -59,5 +74,56 @@ export default class LessonsCoreService extends CoreNode {
 			answer: 'Спасибо за обращение! \nЗаявка по Вашему вопросу отправлена',
 			dialogueStatus: DialogueStatuses.FINISHED
 		};
+	}
+
+	private async askStudentsFIO(): Promise<IAnswer> {
+		this.dialogueState.lastRequestedMetadataUnit =
+			MetadataUnitNames.FIO_STUDENT;
+		await this.cacheManager.set(this.dialogueState.userId, this.dialogueState);
+		return this.getMetadataRequest(MetadataUnitNames.FIO_STUDENT);
+	}
+
+	private async askReasonOfNoConcertion(): Promise<IAnswer> {
+		this.dialogueState.lastRequestedMetadataUnit =
+			MetadataUnitNames.REASON_OF_NO_CONCERTION;
+		await this.cacheManager.set(this.dialogueState.userId, this.dialogueState);
+		return this.getMetadataRequest(MetadataUnitNames.REASON_OF_NO_CONCERTION);
+	}
+
+	private async askIsConcerted(): Promise<IAnswer> {
+		this.dialogueState.lastRequestedMetadataUnit =
+			MetadataUnitNames.IS_CONCERTED;
+		await this.cacheManager.set(this.dialogueState.userId, this.dialogueState);
+		return this.getMetadataRequest(MetadataUnitNames.IS_CONCERTED);
+	}
+
+	private async askDateOfDenial(): Promise<IAnswer> {
+		this.dialogueState.lastRequestedMetadataUnit =
+			MetadataUnitNames.DATE_OF_DENIAL;
+		await this.cacheManager.set(this.dialogueState.userId, this.dialogueState);
+		return this.getMetadataRequest(MetadataUnitNames.DATE_OF_DENIAL);
+	}
+
+	private async askNewDateSingle(): Promise<IAnswer> {
+		this.dialogueState.lastRequestedMetadataUnit =
+			MetadataUnitNames.NEW_SINGLE_LESSON_DATE;
+		await this.cacheManager.set(this.dialogueState.userId, this.dialogueState);
+		return this.getMetadataRequest(MetadataUnitNames.NEW_SINGLE_LESSON_DATE);
+	}
+
+	private async askNewSchedule(): Promise<IAnswer> {
+		this.dialogueState.lastRequestedMetadataUnit =
+			MetadataUnitNames.NEW_MULTIPLE_LESSONS_DATES;
+		await this.cacheManager.set(this.dialogueState.userId, this.dialogueState);
+		return this.getMetadataRequest(
+			MetadataUnitNames.NEW_MULTIPLE_LESSONS_DATES
+		);
+	}
+
+	private async askIsTemporary(): Promise<IAnswer> {
+		this.dialogueState.lastRequestedMetadataUnit =
+			MetadataUnitNames.IS_TEMPORARY;
+		await this.cacheManager.set(this.dialogueState.userId, this.dialogueState);
+		return this.getMetadataRequest(MetadataUnitNames.IS_TEMPORARY);
 	}
 }
