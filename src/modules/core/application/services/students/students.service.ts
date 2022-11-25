@@ -22,36 +22,25 @@ export default class StudentsCoreService extends CoreNode {
 
 	async processSpecific(messageObj: IMessage): Promise<IAnswer> {
 		if (!this.checkMetadata(MetadataUnitNames.FIO_STUDENT)) {
-			this.dialogueState.lastRequestedMetadataUnit =
-				MetadataUnitNames.FIO_STUDENT;
-			await this.cacheManager.set(messageObj.userId, this.dialogueState);
-			return this.getMetadataRequest(MetadataUnitNames.FIO_STUDENT);
+			return await this.askStudentsFIO();
 		}
 
 		if (!this.checkMetadata(MetadataUnitNames.LESSON_DATE_TIME)) {
-			this.dialogueState.lastRequestedMetadataUnit =
-				MetadataUnitNames.LESSON_DATE_TIME;
-			await this.cacheManager.set(messageObj.userId, this.dialogueState);
-			return this.getMetadataRequest(MetadataUnitNames.LESSON_DATE_TIME);
+			return await this.askLessonDateTime();
 		}
 
 		if (
 			this.dialogueState.dialogueBranch === DialogueBranches.DENIAL_OF_STUDENT
 		) {
 			if (!this.checkMetadata(MetadataUnitNames.REASON_OF_CHANGE)) {
-				this.dialogueState.lastRequestedMetadataUnit =
-					MetadataUnitNames.REASON_OF_CHANGE;
-				await this.cacheManager.set(messageObj.userId, this.dialogueState);
-				return this.getMetadataRequest(MetadataUnitNames.REASON_OF_CHANGE);
+				return await this.askReasonOfChange();
 			}
 		} else if (
 			this.dialogueState.dialogueBranch === DialogueBranches.TROUBLED_STUDENT ||
 			this.dialogueState.dialogueBranch === DialogueBranches.OTHER_QUESTION
 		) {
 			if (!this.checkMetadata(MetadataUnitNames.TEXT)) {
-				this.dialogueState.lastRequestedMetadataUnit = MetadataUnitNames.TEXT;
-				await this.cacheManager.set(messageObj.userId, this.dialogueState);
-				return this.getMetadataRequest(MetadataUnitNames.TEXT);
+				return await this.askForDetails();
 			}
 		}
 
@@ -71,5 +60,32 @@ export default class StudentsCoreService extends CoreNode {
 			answer: 'Спасибо за обращение! \nЗаявка по Вашему вопросу отправлена',
 			dialogueStatus: DialogueStatuses.FINISHED
 		};
+	}
+
+	private async askStudentsFIO(): Promise<IAnswer> {
+		this.dialogueState.lastRequestedMetadataUnit =
+			MetadataUnitNames.FIO_STUDENT;
+		await this.cacheManager.set(this.dialogueState.userId, this.dialogueState);
+		return this.getMetadataRequest(MetadataUnitNames.FIO_STUDENT);
+	}
+
+	private async askLessonDateTime(): Promise<IAnswer> {
+		this.dialogueState.lastRequestedMetadataUnit =
+			MetadataUnitNames.LESSON_DATE_TIME;
+		await this.cacheManager.set(this.dialogueState.userId, this.dialogueState);
+		return this.getMetadataRequest(MetadataUnitNames.LESSON_DATE_TIME);
+	}
+
+	private async askReasonOfChange(): Promise<IAnswer> {
+		this.dialogueState.lastRequestedMetadataUnit =
+			MetadataUnitNames.REASON_OF_CHANGE;
+		await this.cacheManager.set(this.dialogueState.userId, this.dialogueState);
+		return this.getMetadataRequest(MetadataUnitNames.REASON_OF_CHANGE);
+	}
+
+	private async askForDetails(): Promise<IAnswer> {
+		this.dialogueState.lastRequestedMetadataUnit = MetadataUnitNames.TEXT;
+		await this.cacheManager.set(this.dialogueState.userId, this.dialogueState);
+		return this.getMetadataRequest(MetadataUnitNames.TEXT);
 	}
 }
