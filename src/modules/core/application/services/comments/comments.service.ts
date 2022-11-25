@@ -1,7 +1,6 @@
 import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
 import DialogueStatuses from 'src/modules/API/enums/dialogueStatus.enum';
 import IAnswer from 'src/modules/API/interfaces/answer.interface';
-import IMessage from 'src/modules/API/interfaces/message.interface';
 import CoreNode from 'src/modules/core/interfaces/core-node.interface';
 import { TaskFormerService } from 'src/modules/taskFormer/application/task-former.service';
 import { Cache } from 'cache-manager';
@@ -19,7 +18,7 @@ export default class CommentsCoreService extends CoreNode {
 
 	protected metadataRequests = CommentsMetadataRequests;
 
-	async processSpecific(messageObj: IMessage): Promise<IAnswer> {
+	async processSpecific(): Promise<IAnswer> {
 		if (!this.checkMetadata(MetadataUnitNames.FIO_STUDENT)) {
 			return await this.askStudentsFIO();
 		}
@@ -30,7 +29,7 @@ export default class CommentsCoreService extends CoreNode {
 
 		this.taskFormer.createTask(this.dialogueState);
 
-		this.cacheManager.del(messageObj.userId);
+		this.cacheManager.del(this.dialogueState.userId);
 
 		return {
 			answer: 'Спасибо за обращение! \nЗаявка по Вашему вопросу отправлена',

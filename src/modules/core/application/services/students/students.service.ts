@@ -2,7 +2,6 @@ import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
 import DialogueStatuses from 'src/modules/API/enums/dialogueStatus.enum';
 import MetadataUnitNames from 'src/modules/API/enums/metadataUnitNames.enum';
 import IAnswer from 'src/modules/API/interfaces/answer.interface';
-import IMessage from 'src/modules/API/interfaces/message.interface';
 import CoreNode from 'src/modules/core/interfaces/core-node.interface';
 import DialogueBranches from 'src/modules/NLU/NLU-assets/dialogueFactory/enums/dialogueBranches.enum';
 import StudentsMetadataRequests from './students.requests';
@@ -20,7 +19,7 @@ export default class StudentsCoreService extends CoreNode {
 
 	protected metadataRequests = StudentsMetadataRequests;
 
-	async processSpecific(messageObj: IMessage): Promise<IAnswer> {
+	async processSpecific(): Promise<IAnswer> {
 		if (!this.checkMetadata(MetadataUnitNames.FIO_STUDENT)) {
 			return await this.askStudentsFIO();
 		}
@@ -46,7 +45,7 @@ export default class StudentsCoreService extends CoreNode {
 
 		this.taskFormer.createTask(this.dialogueState);
 
-		this.cacheManager.del(messageObj.userId);
+		this.cacheManager.del(this.dialogueState.userId);
 
 		if (this.dialogueState.dialogueBranch === DialogueBranches.STUDENT_ABSENT) {
 			return {

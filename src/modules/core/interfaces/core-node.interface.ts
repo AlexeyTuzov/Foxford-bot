@@ -12,7 +12,7 @@ export default abstract class CoreNode {
 	protected metadataRequests: IRequest[];
 	protected cacheManager: Cache;
 
-	abstract processSpecific(messageObj: IMessage): Promise<IAnswer>;
+	abstract processSpecific(): Promise<IAnswer>;
 
 	async process(
 		messageObj: IMessage,
@@ -40,7 +40,7 @@ export default abstract class CoreNode {
 			return this.getMetadataRequest(MetadataUnitNames.EMAIL);
 		}
 
-		return await this.processSpecific(messageObj);
+		return await this.processSpecific();
 	}
 
 	protected checkMetadata(unitName: MetadataUnitNames): boolean | null {
