@@ -16,7 +16,9 @@ enum MetadataUnitNames {
 	NEW_COURCE_NAME = 'new_cource_name',
 	IS_TEMPORARY = 'is_temporary',
 	IS_TEN_WORKING_DAYS_PASSED = 'is_ten_working_days_passed',
-	TEXT = 'text'
+	TEXT = 'text',
+	REMIND_TEN_DAYS = 'remind_ten_days',
+	PERIOD = 'period'
 }
 
 export default MetadataUnitNames;
