@@ -10,6 +10,7 @@ enum MetadataUnitNames {
 	NEW_DATE = 'new_date',
 	NEW_SINGLE_LESSON_DATE = 'new_lesson_date',
 	NEW_MULTIPLE_LESSONS_DATES = 'new_multiple_lessons_dates',
+	MULTIPLE_LESSONS_DATES = 'multiple_lessons_dates',
 	DATE_TO_APPLY_CHANGES = 'date_to_apply_changes',
 	COURCE_NAME = 'cource_name',
 	NEW_COURCE_NAME = 'new_cource_name',

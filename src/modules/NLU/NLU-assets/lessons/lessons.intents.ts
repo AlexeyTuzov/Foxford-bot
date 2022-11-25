@@ -11,7 +11,7 @@ const LessonsIntents: Intent[] = [
 		entities: ['отмен']
 	},
 	{
-		name: LessonsIntentsNames.LESSON_DATE_TIME_CHANGE,
+		name: LessonsIntentsNames.SCHEDULE_CHANGE,
 		entities: ['измен', 'смен', 'поменя']
 	},
 	{

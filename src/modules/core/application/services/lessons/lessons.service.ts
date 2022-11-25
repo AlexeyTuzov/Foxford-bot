@@ -25,6 +25,10 @@ export default class LessonsCoreService extends CoreNode {
 			return await this.askStudentsFIO();
 		}
 
+		if (!this.checkMetadata(MetadataUnitNames.COURCE_NAME)) {
+			return await this.askCourseName();
+		}
+
 		if (this.dialogueState.dialogueBranch !== DialogueBranches.APPROVE_LESSON) {
 			if (
 				this.checkMetadata(MetadataUnitNames.IS_CONCERTED) === false &&
@@ -58,11 +62,29 @@ export default class LessonsCoreService extends CoreNode {
 			if (!this.checkMetadata(MetadataUnitNames.NEW_MULTIPLE_LESSONS_DATES)) {
 				return await this.askNewSchedule();
 			}
+			if (!this.checkMetadata(MetadataUnitNames.NEW_COURCE_NAME)) {
+				return await this.askNewCourseName();
+			}
+			if (!this.checkMetadata(MetadataUnitNames.DATE_TO_APPLY_CHANGES)) {
+				return await this.askDateToApply();
+			}
+			if (!this.checkMetadata(MetadataUnitNames.REASON_OF_CHANGE)) {
+				return await this.askReasonOfChange();
+			}
 		}
 
 		if (this.dialogueState.dialogueBranch === DialogueBranches.APPROVE_LESSON) {
-			if (!this.checkMetadata(MetadataUnitNames.IS_TEMPORARY)) {
-				return this.askIsTemporary();
+			if (
+				!this.checkMetadata(MetadataUnitNames.IS_TEMPORARY) &&
+				this.checkMetadata(MetadataUnitNames.IS_TEMPORARY) !== false
+			) {
+				return await this.askIsTemporary();
+			}
+			if (!this.checkMetadata(MetadataUnitNames.MULTIPLE_LESSONS_DATES)) {
+				return await this.askSchedule();
+			}
+			if (!this.checkMetadata(MetadataUnitNames.DATE_TO_APPLY_CHANGES)) {
+				return await this.askDateToApply();
 			}
 		}
 
@@ -120,10 +142,45 @@ export default class LessonsCoreService extends CoreNode {
 		);
 	}
 
+	private async askSchedule(): Promise<IAnswer> {
+		this.dialogueState.lastRequestedMetadataUnit =
+			MetadataUnitNames.MULTIPLE_LESSONS_DATES;
+		await this.cacheManager.set(this.dialogueState.userId, this.dialogueState);
+		return this.getMetadataRequest(MetadataUnitNames.MULTIPLE_LESSONS_DATES);
+	}
+
 	private async askIsTemporary(): Promise<IAnswer> {
 		this.dialogueState.lastRequestedMetadataUnit =
 			MetadataUnitNames.IS_TEMPORARY;
 		await this.cacheManager.set(this.dialogueState.userId, this.dialogueState);
 		return this.getMetadataRequest(MetadataUnitNames.IS_TEMPORARY);
+	}
+
+	private async askCourseName(): Promise<IAnswer> {
+		this.dialogueState.lastRequestedMetadataUnit =
+			MetadataUnitNames.COURCE_NAME;
+		await this.cacheManager.set(this.dialogueState.userId, this.dialogueState);
+		return this.getMetadataRequest(MetadataUnitNames.COURCE_NAME);
+	}
+
+	private async askNewCourseName(): Promise<IAnswer> {
+		this.dialogueState.lastRequestedMetadataUnit =
+			MetadataUnitNames.NEW_COURCE_NAME;
+		await this.cacheManager.set(this.dialogueState.userId, this.dialogueState);
+		return this.getMetadataRequest(MetadataUnitNames.NEW_COURCE_NAME);
+	}
+
+	private async askDateToApply(): Promise<IAnswer> {
+		this.dialogueState.lastRequestedMetadataUnit =
+			MetadataUnitNames.DATE_TO_APPLY_CHANGES;
+		await this.cacheManager.set(this.dialogueState.userId, this.dialogueState);
+		return this.getMetadataRequest(MetadataUnitNames.DATE_TO_APPLY_CHANGES);
+	}
+
+	private async askReasonOfChange(): Promise<IAnswer> {
+		this.dialogueState.lastRequestedMetadataUnit =
+			MetadataUnitNames.REASON_OF_CHANGE;
+		await this.cacheManager.set(this.dialogueState.userId, this.dialogueState);
+		return this.getMetadataRequest(MetadataUnitNames.REASON_OF_CHANGE);
 	}
 }

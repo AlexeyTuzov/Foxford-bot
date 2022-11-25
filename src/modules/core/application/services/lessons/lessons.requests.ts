@@ -60,6 +60,13 @@ const LessonsMetadataRequests: IRequest[] = [
 		}
 	},
 	{
+		name: MetadataUnitNames.MULTIPLE_LESSONS_DATES,
+		request: {
+			answer: 'Укажите дни недели и время занятий',
+			dialogueStatus: DialogueStatuses.IN_PROGRESS
+		}
+	},
+	{
 		name: MetadataUnitNames.COURCE_NAME,
 		request: {
 			answer: 'Введите название курса',
