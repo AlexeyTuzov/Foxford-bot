@@ -2,7 +2,7 @@ import DialogueStatuses from 'src/modules/API/enums/dialogueStatus.enum';
 import MetadataUnitNames from 'src/modules/API/enums/metadataUnitNames.enum';
 import IRequest from 'src/modules/core/interfaces/request.interface';
 
-const LessonsMetadataRequests: IRequest[] = [
+const FinancialMetadataRequests: IRequest[] = [
 	{
 		name: MetadataUnitNames.FIO_AGENT,
 		request: {
@@ -48,4 +48,4 @@ const LessonsMetadataRequests: IRequest[] = [
 	}
 ];
 
-export default LessonsMetadataRequests;
+export default FinancialMetadataRequests;

@@ -6,6 +6,8 @@ import DialogueBranches from 'src/modules/NLU/NLU-assets/dialogueFactory/enums/d
 import { Cache } from 'cache-manager';
 import { TaskFormerService } from 'src/modules/taskFormer/application/task-former.service';
 import MetadataUnitNames from 'src/modules/API/enums/metadataUnitNames.enum';
+import requestInterface from 'src/modules/core/interfaces/request.interface';
+import FinancialMetadataRequests from './financial.requests';
 
 @Injectable()
 export default class FinancialCoreService extends CoreNode {
@@ -15,6 +17,8 @@ export default class FinancialCoreService extends CoreNode {
 	) {
 		super();
 	}
+
+	protected metadataRequests = FinancialMetadataRequests;
 
 	async processSpecific(): Promise<IAnswer> {
 		if (
@@ -35,9 +39,7 @@ export default class FinancialCoreService extends CoreNode {
 						'Спасибо за честный ответ! Ожидайте Вашу оплату и акт в течение 10 рабочих дней',
 					dialogueStatus: DialogueStatuses.FINISHED
 				};
-			} else if (
-				this.checkMetadata(MetadataUnitNames.REMIND_TEN_DAYS) === true
-			) {
+			} else if (!this.checkMetadata(MetadataUnitNames.PERIOD)) {
 				return await this.askPeriod();
 			}
 		}

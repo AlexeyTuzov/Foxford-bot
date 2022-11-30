@@ -64,6 +64,9 @@ export default abstract class NluNode {
 		try {
 			const branchesNames = Object.values(DialogueBranches);
 			const findBranch = branchesNames.find((name) => name === intentName);
+			if (!findBranch) {
+				return console.log("Can't find such a dialogue branch name!");
+			}
 			messageCopy.dialogueBranch = findBranch;
 
 			await this.cacheManager.set(messageObj.userId, messageCopy);

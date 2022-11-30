@@ -78,7 +78,8 @@ export default abstract class CoreNode {
 			let valueCopy = value;
 
 			if (
-				unitName === MetadataUnitNames.IS_CONCERTED &&
+				(unitName === MetadataUnitNames.IS_CONCERTED ||
+					unitName === MetadataUnitNames.REMIND_TEN_DAYS) &&
 				typeof value === 'string'
 			) {
 				valueCopy = yesNoToBoolean(value);

@@ -26,19 +26,22 @@ export default class EntryPointService extends NluNode {
 				answer: 'Сформулируйте Ваш запрос более конкретно!',
 				dialogueStatus: DialogueStatuses.FINISHED
 			};
-		} else if (this.detectedIntents.length === 1) {
+		} else {
 			const messageCopy = messageObj;
 			messageCopy.entryPointIntentName = this.detectedIntents[0].name;
 			const appropriateService = this.dialogueFactoryService.getDialogueService(
 				this.detectedIntents[0].name
 			);
 			return appropriateService.analyze(messageCopy);
-		} else if (this.detectedIntents.length > 1) {
+		}
+		/*
+		else if (this.detectedIntents.length > 1) {
 			return {
 				answer:
 					'Не удалось конкретизировать Ваши намерения! Попробуйте сформулировать запрос более конкретно!',
 				dialogueStatus: DialogueStatuses.FINISHED
 			};
 		}
+		*/
 	}
 }
